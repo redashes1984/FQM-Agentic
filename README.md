@@ -40,10 +40,14 @@ Album and QQ `mid` do **not** go into filenames — they live in Vorbis comment 
 ## Deployment
 
 ```bash
-docker compose up -d
+docker compose up -d   # NAS has no compose plugin: use the `docker run` form below
+docker run -d --name qqmusic-sync --restart unless-stopped \
+  -p 8080:8080 -e TZ=Asia/Shanghai -e QQMUSIC_DIR=/music \
+  -v /mnt/user/Music/QQmusic:/music -v /mnt/user/appdata/qqmusic-sync/data:/home/appuser/data \
+  nova/qqmusic-sync:latest music-dl web --port 8080 --no-browser
 ```
 
-- Single external port (`go-music-dl web`). Orchestrator status is served from the same origin when hosting custom paths works, otherwise via a thin Caddy mux inside the container. Navidrome keeps its own `:4533`, outside this image.
+- Container gets a dedicated LAN IP on the macvlan `eth1` network (`10.10.4.46`, music-stack block .40–.49), matching how navidrome (.42) / MusicTagWeb (.43) are attached. Formal deployments use the isolated IP; `-p 8080` is the fallback for hosts without macvlan.
 - `QQMUSIC_DIR=/music` is the archive root environment override; compose binds host `/mnt/user/Music/QQmusic` to container `/music`, the same pair Navidrome mounts. Both containers see one truth source.
 - go-music-dl's own download dir is persisted in its `settings.db` (`./data` volume): set once in Web settings to `/music`.
 

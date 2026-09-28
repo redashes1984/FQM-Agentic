@@ -14,3 +14,10 @@ services:
     ports:
       - "8080:8080"
     command: music-dl web --port 8080 --no-browser
+    networks:
+      eth1:
+        ipv4_address: 10.10.4.46
+
+networks:
+  eth1:
+    external: true
