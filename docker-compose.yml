@@ -13,4 +13,4 @@ services:
       - ./data:/home/appuser/data
     ports:
       - "8080:8080"
-    command: ./music-dl web --port 8080 --no-browser
+    command: music-dl web --port 8080 --no-browser

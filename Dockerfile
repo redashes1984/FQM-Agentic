@@ -19,4 +19,4 @@ RUN python3 -m pip install --no-cache-dir --break-system-packages music_tag
 
 WORKDIR /home/appuser
 EXPOSE 8080
-CMD ["./music-dl", "web", "--port", "8080", "--no-browser"]
+CMD ["music-dl", "web", "--port", "8080", "--no-browser"]

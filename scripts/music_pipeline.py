@@ -30,7 +30,8 @@ from datetime import datetime
 BASE_DIR = Path(os.environ.get("QQMUSIC_DIR", "/music"))
 DATA_DIR = Path(os.environ.get("QQMUSIC_DATA", "/home/appuser/data"))
 
-ARCHIVE_BASE = BASE_DIR / "QQmusic" if BASE_DIR.name != "QQmusic" else BASE_DIR
+# QQMUSIC_DIR is itself the archive root (/music binds host .../Music/QQmusic).
+ARCHIVE_BASE = BASE_DIR
 INBOX_DIR = DATA_DIR / "inbox"
 FAILED_DIR = ARCHIVE_BASE / "music_tag" / "failed"
 FAIL_DIRS = {
