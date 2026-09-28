@@ -1,0 +1,16 @@
+services:
+  qqmusic-sync:
+    build: .
+    image: nova/qqmusic-sync:latest
+    container_name: qqmusic-sync
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      # Archive root. Both this container and Navidrome mount the SAME host path.
+      - QQMUSIC_DIR=/music
+    volumes:
+      - /mnt/user/Music/QQmusic:/music
+      - ./data:/home/appuser/data
+    ports:
+      - "8080:8080"
+    command: ./music-dl web --port 8080 --no-browser
